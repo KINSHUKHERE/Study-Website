@@ -13,6 +13,28 @@ export default function Navbar({ currentTab, navigateTo }) {
     localStorage.setItem('trigtech_theme', theme);
   }, [theme]);
 
+  // Smart Scroll autohide navigation bar states
+  const [visible, setVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Hide on scroll down past navbar height (80px), show immediately on scroll up
+      if (currentScrollY > lastScrollY && currentScrollY > 80) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
@@ -27,12 +49,16 @@ export default function Navbar({ currentTab, navigateTo }) {
 
   return (
     <nav className="glass-panel" style={{
-      position: 'sticky',
+      position: 'fixed',
       top: 0,
+      left: 0,
+      right: 0,
       zIndex: 100,
       borderRadius: '0 0 var(--border-radius-md) var(--border-radius-md)',
       borderWidth: '0 0 1px 0',
-      background: 'var(--nav-bg)'
+      background: 'var(--nav-bg)',
+      transform: (visible || mobileMenuOpen) ? 'translateY(0)' : 'translateY(-100%)',
+      transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background var(--transition-fast)'
     }}>
       <div className="container flex items-center justify-between" style={{ height: '4.5rem' }}>
         {/* Logo */}

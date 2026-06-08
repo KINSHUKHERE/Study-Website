@@ -166,7 +166,7 @@ export default function App() {
       <Navbar currentTab={currentTab} navigateTo={navigateTo} />
 
       {/* Main Page Layout */}
-      <main style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+      <main style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', paddingTop: '4.5rem' }}>
         {loading ? (
           <div style={{
             flexGrow: 1,
