@@ -3,6 +3,7 @@ import { Search, Send, ArrowRight, BookOpen, Award } from 'lucide-react';
 import Youtube from '../components/YoutubeIcon';
 import VideoCard from '../components/VideoCard';
 import NotesCard from '../components/NotesCard';
+import TestimonialsSection from '../components/TestimonialsSection';
 
 export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNotesSearchQuery, watchProgress }) {
   const [localSearch, setLocalSearch] = useState('');
@@ -147,30 +148,110 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
         </div>
       </section>
 
-      {/* Stats Counter Section */}
-      <section style={{ background: 'var(--bg-secondary)', padding: '3rem 0', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
-        <div className="container grid" style={{
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          textAlign: 'center',
-          gap: '2.5rem'
+      {/* Stats Counter Section (Scrolling Marquee) */}
+      <section style={{ 
+        background: 'var(--bg-secondary)', 
+        padding: '1.75rem 0', 
+        borderTop: '1px solid var(--border-color)', 
+        borderBottom: '1px solid var(--border-color)',
+        overflow: 'hidden',
+        position: 'relative'
+      }}>
+        {/* Left Side Blue-themed Ambient Gradient Fade */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          bottom: 0,
+          width: '10%',
+          background: 'linear-gradient(to right, var(--bg-secondary) 15%, rgba(99, 102, 241, 0.15) 60%, transparent 100%)',
+          zIndex: 2,
+          pointerEvents: 'none'
+        }} />
+
+        {/* Right Side Blue-themed Ambient Gradient Fade */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          bottom: 0,
+          width: '10%',
+          background: 'linear-gradient(to left, var(--bg-secondary) 15%, rgba(99, 102, 241, 0.15) 60%, transparent 100%)',
+          zIndex: 2,
+          pointerEvents: 'none'
+        }} />
+
+        <div className="marquee-container" style={{
+          display: 'flex',
+          overflow: 'hidden',
+          width: '100%',
+          userSelect: 'none'
         }}>
-          <div>
-            <h2 style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--primary)' }}>50+</h2>
-            <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', fontWeight: 500, marginTop: '0.25rem' }}>Video Lectures</p>
+          {/* Track 1 */}
+          <div className="marquee-track" style={{
+            display: 'flex',
+            gap: '5rem',
+            animation: 'marquee-scroll 20s linear infinite',
+            whiteSpace: 'nowrap',
+            paddingRight: '5rem',
+            flexShrink: 0
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--primary)' }}>50+</span>
+              <span style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>Video Lectures</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent-green)' }}>30+</span>
+              <span style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>Handwritten Notes</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ fontSize: '2rem', fontWeight: 800, color: '#ef4444' }}>5K+</span>
+              <span style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>YouTube Subscribers</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ fontSize: '2rem', fontWeight: 800, color: '#3b82f6' }}>2K+</span>
+              <span style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>Telegram Members</span>
+            </div>
           </div>
-          <div>
-            <h2 style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--accent-green)' }}>30+</h2>
-            <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', fontWeight: 500, marginTop: '0.25rem' }}>Handwritten Notes</p>
-          </div>
-          <div>
-            <h2 style={{ fontSize: '2.5rem', fontWeight: 800, color: '#ef4444' }}>5K+</h2>
-            <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', fontWeight: 500, marginTop: '0.25rem' }}>YouTube Subscribers</p>
-          </div>
-          <div>
-            <h2 style={{ fontSize: '2.5rem', fontWeight: 800, color: '#3b82f6' }}>2K+</h2>
-            <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', fontWeight: 500, marginTop: '0.25rem' }}>Telegram Members</p>
+
+          {/* Track 2 (Duplicate for loop) */}
+          <div className="marquee-track" style={{
+            display: 'flex',
+            gap: '5rem',
+            animation: 'marquee-scroll 20s linear infinite',
+            whiteSpace: 'nowrap',
+            paddingRight: '5rem',
+            flexShrink: 0
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--primary)' }}>50+</span>
+              <span style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>Video Lectures</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent-green)' }}>30+</span>
+              <span style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>Handwritten Notes</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ fontSize: '2rem', fontWeight: 800, color: '#ef4444' }}>5K+</span>
+              <span style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>YouTube Subscribers</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ fontSize: '2rem', fontWeight: 800, color: '#3b82f6' }}>2K+</span>
+              <span style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>Telegram Members</span>
+            </div>
           </div>
         </div>
+
+        <style>{`
+          @keyframes marquee-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+          }
+          .marquee-container:hover .marquee-track {
+            animation-play-state: paused;
+            cursor: pointer;
+          }
+        `}</style>
       </section>
 
       {/* Recent Lectures Section */}
@@ -225,6 +306,9 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
           </div>
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <TestimonialsSection />
     </div>
   );
 }

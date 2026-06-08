@@ -6,6 +6,7 @@ import CustomYoutubePlayer from '../components/CustomYoutubePlayer';
 
 export default function Lectures({ videos, activeVideo, setActiveVideo, selectedPlaylist, setSelectedPlaylist, initialSearchQuery, clearSearchQuery, watchProgress, onProgressUpdate }) {
   const [search, setSearch] = useState(initialSearchQuery || '');
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
   useEffect(() => {
     if (initialSearchQuery) {
@@ -14,6 +15,26 @@ export default function Lectures({ videos, activeVideo, setActiveVideo, selected
       setSelectedPlaylist(null);
     }
   }, [initialSearchQuery]);
+
+  // Dynamic classification helper to map playlists to high-level categories
+  const getVideoCategory = (video) => {
+    const cat = (video.category || '').toLowerCase();
+    const title = (video.title || '').toLowerCase();
+    if (cat.includes('neet') || title.includes('neet')) return 'NEET';
+    if (cat.includes('excel') || title.includes('excel')) return 'Excel';
+    if (cat.includes('automation') || cat.includes('python') || title.includes('automation') || title.includes('python')) return 'Automation';
+    if (cat.includes('printing') || cat.includes('software') || cat.includes('voter')) return 'Automation';
+    if (cat.includes('math') || cat.includes('calculus') || cat.includes('differential') || cat.includes('variable') || cat.includes('lde') || cat.includes('rtu') || title.includes('math') || title.includes('calculus')) return 'Math';
+    
+    // Future-proof fallback: clean up name if it is a completely new topic
+    if (video.category) {
+      return video.category.split('|')[0].split('||')[0].split('–')[0].trim();
+    }
+    return 'Math';
+  };
+
+  // Generate category chips dynamically from the course data
+  const dynamicCategories = ['All', ...new Set(videos.map(v => getVideoCategory(v)))];
 
   // Group videos by category (Playlist)
   const playlistNames = [...new Set(videos.map(v => v.category))];
@@ -28,12 +49,20 @@ export default function Lectures({ videos, activeVideo, setActiveVideo, selected
     };
   });
 
-  // Filter logic
+  // Filter playlists by active category chip
+  const filteredPlaylists = playlists.filter(playlist => {
+    if (selectedCategory === 'All') return true;
+    const playlistVideos = videos.filter(v => v.category === playlist.name);
+    return playlistVideos.some(v => getVideoCategory(v) === selectedCategory);
+  });
+
+  // Filter logic (combining search, active category, and active playlist)
   const filteredVideos = videos.filter(video => {
     const matchesSearch = video.title.toLowerCase().includes(search.toLowerCase()) || 
                           video.description.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = selectedCategory === 'All' || getVideoCategory(video) === selectedCategory;
     const matchesPlaylist = !selectedPlaylist || video.category === selectedPlaylist;
-    return matchesSearch && matchesPlaylist;
+    return matchesSearch && matchesCategory && matchesPlaylist;
   });
 
   const handleWatch = (video) => {
@@ -60,46 +89,90 @@ export default function Lectures({ videos, activeVideo, setActiveVideo, selected
         </p>
       </div>
 
-      {/* Global Search (Active on all views) */}
-      <div className="glass-panel" style={{
-        padding: '1rem 1.5rem',
-        marginBottom: '2.5rem',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        gap: '1.5rem'
-      }}>
-        <div style={{ position: 'relative', flex: '1 1 300px', maxWidth: '500px' }}>
-          <input 
-            type="text" 
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              if (clearSearchQuery) clearSearchQuery();
-              if (e.target.value) setSelectedPlaylist(null); // Clear active playlist to show search matches
-            }}
-            placeholder="Search all lectures by keyword..."
-            className="input-field"
-            style={{ paddingLeft: '2.75rem' }}
-          />
-          <Search 
-            size={18} 
-            color="var(--text-muted)" 
-            style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)' }} 
-          />
+      {/* Global Search and Filters (Hidden when video player is active) */}
+      {!activeVideo && (
+        <div style={{ marginBottom: '2.5rem' }}>
+          {/* Dynamic Category Chips */}
+          <div className="chips-container" style={{
+            display: 'flex',
+            gap: '0.75rem',
+            overflowX: 'auto',
+            paddingBottom: '0.75rem',
+            marginBottom: '1.25rem',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none'
+          }}>
+            {dynamicCategories.map(cat => {
+              const isActive = selectedCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    setSelectedCategory(cat);
+                    setSelectedPlaylist(null); // Clear selected playlist to filter globally
+                  }}
+                  className="glass-panel"
+                  style={{
+                    padding: '0.5rem 1.25rem',
+                    borderRadius: '9999px',
+                    border: isActive ? '1px solid var(--primary)' : '1px solid var(--border-color)',
+                    background: isActive ? 'var(--primary-glow)' : 'var(--card-bg)',
+                    color: isActive ? 'var(--primary)' : 'var(--text-primary)',
+                    fontWeight: 600,
+                    fontSize: '0.9rem',
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap',
+                    transition: 'all var(--transition-fast)',
+                    boxShadow: isActive ? 'var(--shadow-glow)' : 'none'
+                  }}
+                >
+                  {cat}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Search Box */}
+          <div className="glass-panel" style={{
+            padding: '1rem 1.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '1.5rem'
+          }}>
+            <div style={{ position: 'relative', flex: '1 1 300px', maxWidth: '500px' }}>
+              <input 
+                type="text" 
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  if (clearSearchQuery) clearSearchQuery();
+                  if (e.target.value) setSelectedPlaylist(null); // Clear active playlist to show search matches
+                }}
+                placeholder="Search lectures by keyword..."
+                className="input-field"
+                style={{ paddingLeft: '2.75rem' }}
+              />
+              <Search 
+                size={18} 
+                color="var(--text-muted)" 
+                style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)' }} 
+              />
+            </div>
+            
+            {(selectedPlaylist || selectedCategory !== 'All' || search) && (
+              <button 
+                onClick={() => { setSelectedPlaylist(null); setSelectedCategory('All'); setSearch(''); }} 
+                className="btn btn-secondary"
+                style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}
+              >
+                Clear Filters
+              </button>
+            )}
+          </div>
         </div>
-        
-        {selectedPlaylist && (
-          <button 
-            onClick={() => { setSelectedPlaylist(null); setSearch(''); }} 
-            className="btn btn-secondary"
-            style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}
-          >
-            Show All Playlists
-          </button>
-        )}
-      </div>
+      )}
 
       {/* Theater Video Player (Always shown at top if a video is active) */}
       {activeVideo && (
@@ -294,15 +367,34 @@ export default function Lectures({ videos, activeVideo, setActiveVideo, selected
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
             <button 
               onClick={() => {
-                setSelectedPlaylist(null);
-                setActiveVideo(null);
+                window.location.hash = '#lectures';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }} 
-              className="btn btn-secondary" 
-              style={{ padding: '0.5rem 0.75rem', display: 'flex', alignItems: 'center', gap: '0.25rem', borderRadius: '50%' }}
+              className="btn-back-ghost" 
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--text-primary)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                padding: '0.5rem 1rem 0.5rem 0.75rem',
+                borderRadius: 'var(--border-radius-md)',
+                fontSize: '0.95rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.18s ease-in-out'
+              }}
               title="Back to Playlists"
             >
-              <ChevronLeft size={20} />
+              <ChevronLeft 
+                size={18} 
+                className="back-arrow"
+                style={{
+                  transition: 'transform 0.18s ease-in-out'
+                }}
+              />
+              Back
             </button>
             <div>
               <span className="badge badge-primary" style={{ marginBottom: '0.25rem' }}>Playlist Course</span>
@@ -332,7 +424,7 @@ export default function Lectures({ videos, activeVideo, setActiveVideo, selected
             gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
             gap: '2rem'
           }}>
-            {playlists.map((playlist, idx) => (
+            {filteredPlaylists.map((playlist, idx) => (
               <div 
                 key={idx} 
                 onClick={() => {
@@ -413,6 +505,13 @@ export default function Lectures({ videos, activeVideo, setActiveVideo, selected
           height: auto !important;
           padding-bottom: 0 !important;
           flex-grow: 2;
+        }
+        .btn-back-ghost:hover {
+          background: var(--primary-glow) !important;
+          color: var(--primary) !important;
+        }
+        .btn-back-ghost:hover .back-arrow {
+          transform: translateX(-4px);
         }
       `}</style>
     </div>

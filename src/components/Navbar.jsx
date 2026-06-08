@@ -19,6 +19,7 @@ export default function Navbar({ currentTab }) {
 
   const navItems = [
     { id: 'home', label: 'Home' },
+    { id: 'about', label: 'About Us' },
     { id: 'lectures', label: 'Lectures' },
     { id: 'notes', label: 'Notes & PDFs' },
     { id: 'contact', label: 'Contact & Links' },

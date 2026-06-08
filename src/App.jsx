@@ -4,7 +4,8 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Lectures from './pages/Lectures';
 import Notes from './pages/Notes';
-import Contact from './pages/Contact';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
 import { fetchDataFromSheet } from './services/sheetsService';
 import { Loader2 } from 'lucide-react';
 
@@ -77,6 +78,10 @@ export default function App() {
         setActiveVideo(null);
       } else if (hash === '#notes') {
         setCurrentTab('notes');
+        setSelectedPlaylist(null);
+        setActiveVideo(null);
+      } else if (hash === '#about') {
+        setCurrentTab('about');
         setSelectedPlaylist(null);
         setActiveVideo(null);
       } else if (hash === '#contact') {
@@ -220,8 +225,12 @@ export default function App() {
               />
             )}
             
+            {currentTab === 'about' && (
+              <AboutPage />
+            )}
+            
             {currentTab === 'contact' && (
-              <Contact />
+              <ContactPage />
             )}
           </>
         )}
@@ -230,41 +239,94 @@ export default function App() {
        {/* Footer */}
       <Footer setCurrentTab={navigateTo} />
 
-      {/* Floating WhatsApp Button */}
-      <a 
-        href="https://wa.me/919413436533" 
-        target="_blank" 
-        rel="noreferrer"
-        title="Chat on WhatsApp"
+      {/* Floating Action Buttons Stack */}
+      <div 
+        className="fab-container"
         style={{
           position: 'fixed',
           bottom: '2rem',
           right: '2rem',
           zIndex: 999,
-          background: '#25D366',
-          color: '#fff',
-          width: '3.5rem',
-          height: '3.5rem',
-          borderRadius: '50%',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 4px 10px rgba(37, 211, 102, 0.4)',
-          transition: 'transform 0.25s ease, box-shadow 0.25s ease',
-          cursor: 'pointer'
+          flexDirection: 'column',
+          gap: '0.85rem',
+          alignItems: 'center'
         }}
-        className="btn-whatsapp"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="currentColor"
+        {/* Telegram FAB */}
+        <a 
+          href="https://t.me/TrigTechMath" 
+          target="_blank" 
+          rel="noreferrer"
+          className="fab-item fab-telegram"
+          style={{
+            background: 'var(--card-bg)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            border: '1px solid var(--border-color)',
+            color: '#3b82f6',
+            width: '3.2rem',
+            height: '3.2rem',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: 'var(--shadow-md)',
+            transition: 'transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease',
+            cursor: 'pointer',
+            position: 'relative'
+          }}
         >
-          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.449 5.376 0 9.738-4.364 9.742-9.75.002-2.61-1.01-5.064-2.85-6.906C16.328 2.099 13.89 1.085 11.996 1.085c-5.385 0-9.754 4.373-9.758 9.76-.002 1.8.484 3.486 1.472 4.966L2.684 20.89l4.963-1.736zm10.74-4.854c-.299-.149-1.764-.87-2.037-.967-.272-.098-.47-.147-.667.149-.196.297-.762.967-.934 1.165-.173.197-.346.223-.645.074-.3-.149-1.265-.466-2.41-1.487-.89-.794-1.49-1.774-1.664-2.072-.173-.299-.018-.46.131-.608.135-.133.299-.347.448-.52.149-.173.197-.297.299-.495.101-.197.05-.371-.025-.52-.075-.149-.667-1.609-.913-2.204-.24-.577-.48-.498-.667-.508l-.57-.01c-.197 0-.518.074-.79.37-.272.296-1.037 1.013-1.037 2.47 0 1.458 1.061 2.864 1.209 3.062.149.198 2.09 3.193 5.064 4.48 2.476 1.07 2.98.858 3.518.808.538-.05 1.764-.72 2.012-1.412.247-.69.247-1.282.173-1.411-.074-.131-.272-.206-.57-.355z"/>
-        </svg>
-      </a>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+          <div className="fab-tooltip">Join our Telegram community</div>
+        </a>
+
+        {/* WhatsApp FAB */}
+        <a 
+          href="https://wa.me/919413436533" 
+          target="_blank" 
+          rel="noreferrer"
+          className="fab-item fab-whatsapp"
+          style={{
+            background: '#25D366',
+            color: '#fff',
+            width: '3.2rem',
+            height: '3.2rem',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 4px 10px rgba(37, 211, 102, 0.35)',
+            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+            cursor: 'pointer',
+            position: 'relative'
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.449 5.376 0 9.738-4.364 9.742-9.75.002-2.61-1.01-5.064-2.85-6.906C16.328 2.099 13.89 1.085 11.996 1.085c-5.385 0-9.754 4.373-9.758 9.76-.002 1.8.484 3.486 1.472 4.966L2.684 20.89l4.963-1.736zm10.74-4.854c-.299-.149-1.764-.87-2.037-.967-.272-.098-.47-.147-.667.149-.196.297-.762.967-.934 1.165-.173.197-.346.223-.645.074-.3-.149-1.265-.466-2.41-1.487-.89-.794-1.49-1.774-1.664-2.072-.173-.299-.018-.46.131-.608.135-.133.299-.347.448-.52.149-.173.197-.297.299-.495.101-.197.05-.371-.025-.52-.075-.149-.667-1.609-.913-2.204-.24-.577-.48-.498-.667-.508l-.57-.01c-.197 0-.518.074-.79.37-.272.296-1.037 1.013-1.037 2.47 0 1.458 1.061 2.864 1.209 3.062.149.198 2.09 3.193 5.064 4.48 2.476 1.07 2.98.858 3.518.808.538-.05 1.764-.72 2.012-1.412.247-.69.247-1.282.173-1.411-.074-.131-.272-.206-.57-.355z"/>
+          </svg>
+          <div className="fab-tooltip">Chat with Pankaj Sir</div>
+        </a>
+      </div>
 
       {/* Injecting keyframe animations and styles */}
       <style>{`
@@ -279,9 +341,53 @@ export default function App() {
           0%, 100% { opacity: 1; }
           50% { opacity: .5; }
         }
-        .btn-whatsapp:hover {
+        .fab-tooltip {
+          position: absolute;
+          right: 4.25rem;
+          top: 50%;
+          transform: translateY(-50%) scale(0.95);
+          background: var(--bg-secondary);
+          color: var(--text-primary);
+          padding: 0.45rem 0.85rem;
+          border-radius: var(--border-radius-sm);
+          border: 1px solid var(--border-color);
+          font-size: 0.8rem;
+          font-weight: 600;
+          white-space: nowrap;
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.15s ease, transform 0.15s ease;
+          box-shadow: var(--shadow-lg);
+        }
+        .fab-item:hover {
           transform: scale(1.1);
-          box-shadow: 0 6px 16px rgba(37, 211, 102, 0.6) !important;
+        }
+        .fab-item:hover .fab-tooltip {
+          opacity: 1;
+          transform: translateY(-50%) scale(1);
+        }
+        .fab-telegram:hover {
+          border-color: #3b82f6 !important;
+          box-shadow: 0 4px 16px rgba(59, 130, 246, 0.45) !important;
+        }
+        .fab-whatsapp:hover {
+          box-shadow: 0 6px 18px rgba(37, 211, 102, 0.55) !important;
+        }
+
+        /* Responsive adaptations to ensure FABs don't overlap content on mobile */
+        @media (max-width: 480px) {
+          .fab-container {
+            bottom: 1.25rem !important;
+            right: 1.25rem !important;
+            gap: 0.65rem !important;
+          }
+          .fab-item {
+            width: 2.8rem !important;
+            height: 2.8rem !important;
+          }
+          .fab-tooltip {
+            display: none; /* Hide tooltips on mobile to prevent clutter */
+          }
         }
       `}</style>
     </div>
