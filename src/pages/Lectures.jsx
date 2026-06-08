@@ -3,6 +3,12 @@ import { Search, Play, Folder, ChevronLeft, Calendar, Video, X, BookOpen, Layers
 import VideoCard from '../components/VideoCard';
 import Youtube from '../components/YoutubeIcon';
 import CustomYoutubePlayer from '../components/CustomYoutubePlayer';
+import FilterDisclosure from '../components/FilterDisclosure';
+import { FaBell, FaTasks } from 'react-icons/fa';
+import { IoCalendar } from 'react-icons/io5';
+import { BsFillPeopleFill, BsPinFill } from 'react-icons/bs';
+import { RiBubbleChartFill } from 'react-icons/ri';
+import { PiFunnelSimpleBold } from 'react-icons/pi';
 
 export default function Lectures({ videos, activeVideo, setActiveVideo, selectedPlaylist, setSelectedPlaylist, initialSearchQuery, clearSearchQuery, watchProgress, onProgressUpdate }) {
   const [search, setSearch] = useState(initialSearchQuery || '');
@@ -35,6 +41,24 @@ export default function Lectures({ videos, activeVideo, setActiveVideo, selected
 
   // Generate category chips dynamically from the course data
   const dynamicCategories = ['All', ...new Set(videos.map(v => getVideoCategory(v)))];
+
+  // Map category to a relevant react-icons component
+  const getCategoryIcon = (categoryName) => {
+    const name = categoryName.toLowerCase();
+    if (name.includes('all')) return PiFunnelSimpleBold;
+    if (name.includes('math')) return BsPinFill;
+    if (name.includes('neet')) return FaBell;
+    if (name.includes('excel')) return IoCalendar;
+    if (name.includes('automation')) return RiBubbleChartFill;
+    return FaTasks; // default fallback
+  };
+
+  // Convert categories array to items schema expected by FilterDisclosure
+  const filterDisclosureItems = dynamicCategories.map(cat => ({
+    id: cat,
+    label: cat === 'All' ? 'All Subjects' : cat,
+    icon: getCategoryIcon(cat)
+  }));
 
   // Group videos by category (Playlist)
   const playlistNames = [...new Set(videos.map(v => v.category))];
@@ -92,44 +116,22 @@ export default function Lectures({ videos, activeVideo, setActiveVideo, selected
       {/* Global Search and Filters (Hidden when video player is active) */}
       {!activeVideo && (
         <div style={{ marginBottom: '2.5rem' }}>
-          {/* Dynamic Category Chips */}
-          <div className="chips-container" style={{
+          {/* Dynamic Category FilterDisclosure */}
+          <div style={{
             display: 'flex',
-            gap: '0.75rem',
-            overflowX: 'auto',
-            paddingBottom: '0.75rem',
-            marginBottom: '1.25rem',
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none'
+            justifyContent: 'flex-start',
+            marginBottom: '1.5rem',
+            position: 'relative',
+            zIndex: 40
           }}>
-            {dynamicCategories.map(cat => {
-              const isActive = selectedCategory === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => {
-                    setSelectedCategory(cat);
-                    setSelectedPlaylist(null); // Clear selected playlist to filter globally
-                  }}
-                  className="glass-panel"
-                  style={{
-                    padding: '0.5rem 1.25rem',
-                    borderRadius: '9999px',
-                    border: isActive ? '1px solid var(--primary)' : '1px solid var(--border-color)',
-                    background: isActive ? 'var(--primary-glow)' : 'var(--card-bg)',
-                    color: isActive ? 'var(--primary)' : 'var(--text-primary)',
-                    fontWeight: 600,
-                    fontSize: '0.9rem',
-                    cursor: 'pointer',
-                    whiteSpace: 'nowrap',
-                    transition: 'all var(--transition-fast)',
-                    boxShadow: isActive ? 'var(--shadow-glow)' : 'none'
-                  }}
-                >
-                  {cat}
-                </button>
-              );
-            })}
+            <FilterDisclosure 
+              items={filterDisclosureItems}
+              activeId={selectedCategory}
+              onChange={(id) => {
+                setSelectedCategory(id);
+                setSelectedPlaylist(null); // Clear selected playlist to filter globally
+              }}
+            />
           </div>
 
           {/* Search Box */}
