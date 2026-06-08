@@ -61,40 +61,45 @@ export default function App() {
     loadData();
   }, []);
 
-  // Hash-based Routing Engine
+  // Pathname-based Routing Engine (HTML5 History API)
   useEffect(() => {
     if (loading || videos.length === 0) return;
 
-    const parseHash = () => {
-      const hash = window.location.hash || '#home';
+    const parsePath = () => {
+      const path = window.location.pathname;
+      const search = window.location.search;
       
-      if (hash === '#home') {
+      if (path === '/' || path === '/home') {
         setCurrentTab('home');
         setSelectedPlaylist(null);
         setActiveVideo(null);
-      } else if (hash === '#lectures') {
+      } else if (path === '/lectures') {
         setCurrentTab('lectures');
         setSelectedPlaylist(null);
         setActiveVideo(null);
-      } else if (hash === '#notes') {
+      } else if (path === '/notes') {
         setCurrentTab('notes');
         setSelectedPlaylist(null);
         setActiveVideo(null);
-      } else if (hash === '#about') {
+      } else if (path === '/about') {
         setCurrentTab('about');
         setSelectedPlaylist(null);
         setActiveVideo(null);
-      } else if (hash === '#contact') {
+      } else if (path === '/contact') {
         setCurrentTab('contact');
         setSelectedPlaylist(null);
         setActiveVideo(null);
-      } else if (hash.startsWith('#playlist?name=')) {
-        const playlistName = decodeURIComponent(hash.replace('#playlist?name=', ''));
+      } else if (path === '/playlist') {
+        const params = new URLSearchParams(search);
+        const playlistParam = params.get('name') || '';
+        const playlistName = playlistParam.split('&')[0]; // Ignore tracking trailing parameters
         setCurrentTab('lectures');
         setSelectedPlaylist(playlistName);
         setActiveVideo(null);
-      } else if (hash.startsWith('#watch?v=')) {
-        const videoId = hash.replace('#watch?v=', '');
+      } else if (path === '/watch') {
+        const params = new URLSearchParams(search);
+        const videoParam = params.get('v') || '';
+        const videoId = videoParam.split('&')[0]; // Ignore tracking trailing parameters
         const video = videos.find(v => v.id === videoId);
         if (video) {
           setCurrentTab('lectures');
@@ -107,22 +112,25 @@ export default function App() {
       }
     };
 
-    // Listen for hash changes (for back/forward browser navigation)
-    window.addEventListener('hashchange', parseHash);
+    // Listen for popstate changes (for back/forward browser navigation)
+    window.addEventListener('popstate', parsePath);
     
     // Parse initially on load
-    parseHash();
+    parsePath();
 
-    return () => window.removeEventListener('hashchange', parseHash);
+    return () => window.removeEventListener('popstate', parsePath);
   }, [loading, videos]);
 
   // Navigation Trigger helper
   const navigateTo = (tabId) => {
-    window.location.hash = `#${tabId}`;
+    const path = tabId === 'home' ? '/' : `/${tabId}`;
+    window.history.pushState(null, '', path);
+    window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
   const handleWatchVideo = (video) => {
-    window.location.hash = `#watch?v=${video.id}`;
+    window.history.pushState(null, '', `/watch?v=${video.id}`);
+    window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
   return (
@@ -190,24 +198,29 @@ export default function App() {
             {currentTab === 'lectures' && (
               <Lectures 
                 videos={videos} 
-                activeVideo={activeVideo} 
+                activeVideo={activeVideo}
                 setActiveVideo={(video) => {
                   if (video) {
-                    window.location.hash = `#watch?v=${video.id}`;
+                    window.history.pushState(null, '', `/watch?v=${video.id}`);
+                    window.dispatchEvent(new PopStateEvent('popstate'));
                   } else {
                     if (selectedPlaylist) {
-                      window.location.hash = `#playlist?name=${encodeURIComponent(selectedPlaylist)}`;
+                      window.history.pushState(null, '', `/playlist?name=${encodeURIComponent(selectedPlaylist)}`);
+                      window.dispatchEvent(new PopStateEvent('popstate'));
                     } else {
-                      window.location.hash = '#lectures';
+                      window.history.pushState(null, '', '/lectures');
+                      window.dispatchEvent(new PopStateEvent('popstate'));
                     }
                   }
                 }}
                 selectedPlaylist={selectedPlaylist}
                 setSelectedPlaylist={(playlist) => {
                   if (playlist) {
-                    window.location.hash = `#playlist?name=${encodeURIComponent(playlist)}`;
+                    window.history.pushState(null, '', `/playlist?name=${encodeURIComponent(playlist)}`);
+                    window.dispatchEvent(new PopStateEvent('popstate'));
                   } else {
-                    window.location.hash = '#lectures';
+                    window.history.pushState(null, '', '/lectures');
+                    window.dispatchEvent(new PopStateEvent('popstate'));
                   }
                 }}
                 initialSearchQuery={notesSearchQuery}

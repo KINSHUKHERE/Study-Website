@@ -4,6 +4,7 @@ import Youtube from '../components/YoutubeIcon';
 import VideoCard from '../components/VideoCard';
 import NotesCard from '../components/NotesCard';
 import TestimonialsSection from '../components/TestimonialsSection';
+import Features from '../components/ui/Features';
 
 export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNotesSearchQuery, watchProgress }) {
   const [localSearch, setLocalSearch] = useState('');
@@ -253,6 +254,9 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
           }
         `}</style>
       </section>
+
+      {/* Platform Features Section */}
+      <Features />
 
       {/* Recent Lectures Section */}
       <section className="section-padding">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Send, Info, Phone, ExternalLink } from 'lucide-react';
 import Youtube from '../components/YoutubeIcon';
+import FloatingInput from '../components/FloatingInput';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
@@ -66,53 +67,36 @@ export default function ContactPage() {
           <h3 style={{ fontSize: '1.25rem', marginBottom: '1.25rem' }}>Send a WhatsApp Message</h3>
           
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1">
-              <label style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--text-secondary)' }}>Name <span style={{ color: '#ef4444' }}>*</span></label>
-              <input 
-                type="text" 
-                required 
-                value={formData.name}
-                onChange={(e) => setFormData({...formData, name: e.target.value})}
-                placeholder="Enter your name" 
-                className="input-field" 
-              />
-            </div>
+            <FloatingInput 
+              label="Name" 
+              required 
+              value={formData.name}
+              onChange={(e) => setFormData({...formData, name: e.target.value})}
+            />
             
-            <div className="flex flex-col gap-1">
-              <label style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--text-secondary)' }}>Email <span style={{ color: '#ef4444' }}>*</span></label>
-              <input 
-                type="email" 
-                required 
-                value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
-                placeholder="Enter your email" 
-                className="input-field" 
-              />
-            </div>
+            <FloatingInput 
+              label="Email Address" 
+              type="email"
+              required 
+              value={formData.email}
+              onChange={(e) => setFormData({...formData, email: e.target.value})}
+            />
 
-            <div className="flex flex-col gap-1">
-              <label style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--text-secondary)' }}>Phone (Optional)</label>
-              <input 
-                type="tel" 
-                value={formData.phone}
-                onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                placeholder="Enter your phone number" 
-                className="input-field" 
-              />
-            </div>
+            <FloatingInput 
+              label="Phone (Optional)" 
+              type="tel"
+              value={formData.phone}
+              onChange={(e) => setFormData({...formData, phone: e.target.value})}
+            />
 
-            <div className="flex flex-col gap-1">
-              <label style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--text-secondary)' }}>Message / Query <span style={{ color: '#ef4444' }}>*</span></label>
-              <textarea 
-                required 
-                rows={4}
-                value={formData.message}
-                onChange={(e) => setFormData({...formData, message: e.target.value})}
-                placeholder="Write your message here..." 
-                className="input-field" 
-                style={{ resize: 'none' }}
-              />
-            </div>
+            <FloatingInput 
+              label="Message / Query" 
+              type="textarea"
+              required 
+              rows={4}
+              value={formData.message}
+              onChange={(e) => setFormData({...formData, message: e.target.value})}
+            />
 
             <button type="submit" className="btn btn-primary" style={{ alignSelf: 'flex-start', gap: '0.5rem' }}>
               Open WhatsApp Chat <ExternalLink size={16} />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Sun, Moon, Menu, X, Send } from 'lucide-react';
 import Youtube from './YoutubeIcon';
 
-export default function Navbar({ currentTab }) {
+export default function Navbar({ currentTab, navigateTo }) {
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('trigtech_theme') || 'dark';
   });
@@ -37,7 +37,11 @@ export default function Navbar({ currentTab }) {
       <div className="container flex items-center justify-between" style={{ height: '4.5rem' }}>
         {/* Logo */}
         <a 
-          href="#home"
+          href="/"
+          onClick={(e) => {
+            e.preventDefault();
+            navigateTo('home');
+          }}
           className="flex items-center gap-2" 
           style={{ cursor: 'pointer' }}
         >
@@ -67,7 +71,11 @@ export default function Navbar({ currentTab }) {
           {navItems.map(item => (
             <a
               key={item.id}
-              href={`#${item.id}`}
+              href={item.id === 'home' ? '/' : `/${item.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo(item.id);
+              }}
               style={{
                 color: currentTab === item.id ? 'var(--primary)' : 'var(--text-secondary)',
                 fontWeight: currentTab === item.id ? 600 : 500,
@@ -151,10 +159,11 @@ export default function Navbar({ currentTab }) {
           width: 2.2rem;
           height: 2.2rem;
           border-radius: var(--border-radius-sm);
+          background-color: transparent !important;
           transition: background-color var(--transition-fast);
         }
         .btn-social:hover {
-          background-color: var(--bg-tertiary);
+          background-color: var(--bg-tertiary) !important;
         }
         
         @media (max-width: 768px) {
@@ -186,8 +195,12 @@ export default function Navbar({ currentTab }) {
           {navItems.map(item => (
             <a
               key={item.id}
-              href={`#${item.id}`}
-              onClick={() => setMobileMenuOpen(false)}
+              href={item.id === 'home' ? '/' : `/${item.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo(item.id);
+                setMobileMenuOpen(false);
+              }}
               style={{
                 color: currentTab === item.id ? 'var(--primary)' : 'var(--text-primary)',
                 fontWeight: currentTab === item.id ? 600 : 500,
