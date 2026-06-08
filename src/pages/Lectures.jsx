@@ -4,9 +4,8 @@ import VideoCard from '../components/VideoCard';
 import Youtube from '../components/YoutubeIcon';
 import CustomYoutubePlayer from '../components/CustomYoutubePlayer';
 
-export default function Lectures({ videos, activeVideo, setActiveVideo, initialSearchQuery, clearSearchQuery, watchProgress, onProgressUpdate }) {
+export default function Lectures({ videos, activeVideo, setActiveVideo, selectedPlaylist, setSelectedPlaylist, initialSearchQuery, clearSearchQuery, watchProgress, onProgressUpdate }) {
   const [search, setSearch] = useState(initialSearchQuery || '');
-  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
   useEffect(() => {
     if (initialSearchQuery) {
@@ -296,6 +295,7 @@ export default function Lectures({ videos, activeVideo, setActiveVideo, initialS
             <button 
               onClick={() => {
                 setSelectedPlaylist(null);
+                setActiveVideo(null);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }} 
               className="btn btn-secondary" 

@@ -18,6 +18,7 @@ export default function App() {
   
   // Interaction States
   const [activeVideo, setActiveVideo] = useState(null);
+  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
   const [notesSearchQuery, setNotesSearchQuery] = useState('');
   
   // Watch Progress Tracker (stored in localStorage)
@@ -68,15 +69,24 @@ export default function App() {
       
       if (hash === '#home') {
         setCurrentTab('home');
+        setSelectedPlaylist(null);
         setActiveVideo(null);
       } else if (hash === '#lectures') {
         setCurrentTab('lectures');
+        setSelectedPlaylist(null);
         setActiveVideo(null);
       } else if (hash === '#notes') {
         setCurrentTab('notes');
+        setSelectedPlaylist(null);
         setActiveVideo(null);
       } else if (hash === '#contact') {
         setCurrentTab('contact');
+        setSelectedPlaylist(null);
+        setActiveVideo(null);
+      } else if (hash.startsWith('#playlist?name=')) {
+        const playlistName = decodeURIComponent(hash.replace('#playlist?name=', ''));
+        setCurrentTab('lectures');
+        setSelectedPlaylist(playlistName);
         setActiveVideo(null);
       } else if (hash.startsWith('#watch?v=')) {
         const videoId = hash.replace('#watch?v=', '');
@@ -84,6 +94,7 @@ export default function App() {
         if (video) {
           setCurrentTab('lectures');
           setActiveVideo(video);
+          setSelectedPlaylist(video.category);
         } else {
           setCurrentTab('lectures');
           setActiveVideo(null);
@@ -178,6 +189,18 @@ export default function App() {
                 setActiveVideo={(video) => {
                   if (video) {
                     window.location.hash = `#watch?v=${video.id}`;
+                  } else {
+                    if (selectedPlaylist) {
+                      window.location.hash = `#playlist?name=${encodeURIComponent(selectedPlaylist)}`;
+                    } else {
+                      window.location.hash = '#lectures';
+                    }
+                  }
+                }}
+                selectedPlaylist={selectedPlaylist}
+                setSelectedPlaylist={(playlist) => {
+                  if (playlist) {
+                    window.location.hash = `#playlist?name=${encodeURIComponent(playlist)}`;
                   } else {
                     window.location.hash = '#lectures';
                   }
