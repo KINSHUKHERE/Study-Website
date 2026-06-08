@@ -1,5 +1,6 @@
 import React from 'react';
 import { BookOpen, Award, CheckCircle, Terminal, HelpCircle, Code, ShieldCheck } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function AboutPage() {
   const learningCards = [
@@ -163,13 +164,21 @@ export default function AboutPage() {
 
         <div className="grid grid-cols-1 grid-cols-2" style={{ gap: '1.5rem' }}>
           {learningCards.map((card, idx) => (
-            <div key={idx} className="glass-panel" style={{
-              padding: '2rem',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1rem',
-              border: '1px solid var(--border-color)'
-            }}>
+            <motion.div 
+              key={idx} 
+              className="glass-panel glass-panel-interactive" 
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: idx * 0.05, ease: 'easeOut' }}
+              style={{
+                padding: '2rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1rem',
+                border: '1px solid var(--border-color)'
+              }}
+            >
               <div style={{
                 background: 'var(--bg-tertiary)',
                 width: '3.2rem',
@@ -184,7 +193,7 @@ export default function AboutPage() {
               </div>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700 }}>{card.title}</h3>
               <p style={{ fontSize: '0.95rem', lineHeight: 1.6, color: 'var(--text-secondary)' }}>{card.desc}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { FileDown, Calendar, Send, ExternalLink } from 'lucide-react';
 import { getDirectDownloadUrl } from '../services/sheetsService';
+import { motion } from 'framer-motion';
 
 export default function NotesCard({ note }) {
   const getBadgeClass = (category) => {
@@ -11,12 +12,19 @@ export default function NotesCard({ note }) {
   };
 
   return (
-    <div className="glass-panel flex flex-col" style={{
-      padding: '1.5rem',
-      height: '100%',
-      justifyContent: 'space-between',
-      position: 'relative'
-    }}>
+    <motion.div 
+      className="glass-panel glass-panel-interactive flex flex-col"
+      initial={{ opacity: 0, y: 15 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      style={{
+        padding: '1.5rem',
+        height: '100%',
+        justifyContent: 'space-between',
+        position: 'relative'
+      }}
+    >
       <div className="flex flex-col gap-3">
         {/* Top bar with category and date */}
         <div className="flex items-center justify-between">
@@ -76,17 +84,12 @@ export default function NotesCard({ note }) {
           download
           target="_blank" 
           rel="noreferrer"
-          className="btn btn-primary" 
+          className="btn btn-primary btn-accent-green" 
           style={{ 
             flex: 2, 
             padding: '0.6rem 1rem', 
-            fontSize: '0.875rem',
-            background: 'var(--accent-green)',
-            borderColor: 'var(--accent-green)',
-            boxShadow: '0 4px 14px 0 rgba(16, 185, 129, 0.3)'
+            fontSize: '0.875rem'
           }}
-          onMouseOver={(e) => e.target.style.background = '#059669'}
-          onMouseOut={(e) => e.target.style.background = 'var(--accent-green)'}
         >
           <FileDown size={14} /> Download PDF
         </a>
@@ -112,6 +115,6 @@ export default function NotesCard({ note }) {
           </a>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }

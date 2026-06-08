@@ -533,18 +533,15 @@ export default function CustomYoutubePlayer({ youtubeId, onProgressUpdate }) {
                     <button
                       key={q}
                       onClick={() => handleSetQuality(q)}
+                      className={`player-quality-item ${currentQuality === q ? 'active' : ''}`}
                       style={{
-                        background: currentQuality === q ? 'var(--primary)' : 'none',
                         border: 'none',
                         color: '#fff',
                         padding: '0.4rem 0.8rem',
                         textAlign: 'left',
                         cursor: 'pointer',
-                        fontSize: '0.8rem',
-                        fontWeight: currentQuality === q ? 600 : 400
+                        fontSize: '0.8rem'
                       }}
-                      onMouseOver={(e) => { if (currentQuality !== q) e.target.style.background = 'rgba(255,255,255,0.08)'; }}
-                      onMouseOut={(e) => { if (currentQuality !== q) e.target.style.background = 'none'; }}
                     >
                       {mapQualityName(q)}
                     </button>
@@ -614,6 +611,22 @@ export default function CustomYoutubePlayer({ youtubeId, onProgressUpdate }) {
         .seek-arrows-right {
           display: flex;
           align-items: center;
+        }
+
+        .player-quality-item {
+          background: none;
+          font-weight: 400;
+          transition: background var(--transition-fast);
+        }
+        .player-quality-item:hover {
+          background: rgba(255, 255, 255, 0.08) !important;
+        }
+        .player-quality-item.active {
+          background: var(--primary) !important;
+          font-weight: 600 !important;
+        }
+        .player-quality-item.active:hover {
+          background: var(--primary) !important;
         }
       `}</style>
     </div>

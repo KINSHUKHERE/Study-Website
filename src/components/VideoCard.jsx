@@ -1,5 +1,6 @@
 import React from 'react';
 import { Play, FileText, Calendar } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function VideoCard({ video, onWatch, onSelectNotes, progress }) {
   const thumbnail = video.youtubeId 
@@ -14,14 +15,22 @@ export default function VideoCard({ video, onWatch, onSelectNotes, progress }) {
   };
 
   return (
-    <div className="glass-panel flex flex-col" style={{
-      overflow: 'hidden',
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column'
-    }}>
+    <motion.div 
+      className="glass-panel glass-panel-interactive flex flex-col"
+      initial={{ opacity: 0, y: 15 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      style={{
+        overflow: 'hidden',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column'
+      }}
+    >
       {/* Thumbnail Container */}
       <div 
+        className="video-card-thumb"
         style={{ position: 'relative', overflow: 'hidden', aspectRatio: '16/9', cursor: 'pointer' }} 
         onClick={(e) => { e.preventDefault(); e.stopPropagation(); onWatch(video); }}
         onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); onWatch(video); }}
@@ -29,14 +38,13 @@ export default function VideoCard({ video, onWatch, onSelectNotes, progress }) {
         <img 
           src={thumbnail} 
           alt={video.title} 
+          className="video-card-img"
           style={{
             width: '100%',
             height: '100%',
             objectFit: 'cover',
             transition: 'transform var(--transition-normal)'
           }}
-          onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
-          onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
         />
         <div style={{
           position: 'absolute',
@@ -44,23 +52,29 @@ export default function VideoCard({ video, onWatch, onSelectNotes, progress }) {
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'rgba(10, 14, 26, 0.4)',
+          background: 'rgba(10, 14, 26, 0.45)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          transition: 'opacity var(--transition-fast)'
+          opacity: 0,
+          transition: 'opacity var(--transition-normal) ease-in-out'
         }} className="play-overlay">
-          <div style={{
-            background: 'var(--primary)',
-            color: '#fff',
-            width: '3rem',
-            height: '3rem',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: 'var(--shadow-glow)'
-          }}>
+          <div 
+            className="play-btn-wrapper"
+            style={{
+              background: 'var(--primary)',
+              color: '#fff',
+              width: '3rem',
+              height: '3rem',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: 'var(--shadow-glow)',
+              transform: 'scale(0.9)',
+              transition: 'transform var(--transition-normal) cubic-bezier(0.34, 1.56, 0.64, 1)'
+            }}
+          >
             <Play size={20} fill="#fff" style={{ marginLeft: '2px' }} />
           </div>
         </div>
@@ -101,6 +115,7 @@ export default function VideoCard({ video, onWatch, onSelectNotes, progress }) {
         <h3 
           onClick={(e) => { e.preventDefault(); onWatch(video); }}
           onTouchEnd={(e) => { e.preventDefault(); onWatch(video); }}
+          className="video-card-title"
           style={{
             fontSize: '1.1rem',
             fontWeight: 600,
@@ -110,10 +125,9 @@ export default function VideoCard({ video, onWatch, onSelectNotes, progress }) {
             display: '-webkit-box',
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            transition: 'color var(--transition-fast)'
           }}
-          onMouseOver={(e) => e.target.style.color = 'var(--primary)'}
-          onMouseOut={(e) => e.target.style.color = 'var(--text-primary)'}
         >
           {video.title}
         </h3>
@@ -156,13 +170,19 @@ export default function VideoCard({ video, onWatch, onSelectNotes, progress }) {
       </div>
 
       <style>{`
-        .play-overlay {
-          opacity: 0.8;
+        .video-card-thumb:hover .video-card-img {
+          transform: scale(1.05);
         }
-        .play-overlay:hover {
-          opacity: 1;
+        .video-card-thumb:hover .play-overlay {
+          opacity: 1 !important;
+        }
+        .video-card-thumb:hover .play-btn-wrapper {
+          transform: scale(1.08) !important;
+        }
+        .video-card-title:hover {
+          color: var(--primary) !important;
         }
       `}</style>
-    </div>
+    </motion.div>
   );
 }

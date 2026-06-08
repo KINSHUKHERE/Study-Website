@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Mail, Send, Info, Phone, ExternalLink } from 'lucide-react';
 import Youtube from '../components/YoutubeIcon';
 import FloatingInput from '../components/FloatingInput';
+import { motion } from 'framer-motion';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
@@ -41,7 +42,16 @@ export default function ContactPage() {
       }}>
         {/* Quick Social Contact Cards */}
         <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-          <a href="https://www.youtube.com/@TrigTechSolutions/" target="_blank" rel="noreferrer" className="glass-panel" style={{ padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <motion.a 
+            href="https://www.youtube.com/@TrigTechSolutions/" 
+            target="_blank" 
+            rel="noreferrer" 
+            className="glass-panel glass-panel-interactive" 
+            initial={{ opacity: 0, x: -15 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.35, delay: 0.05, ease: 'easeOut' }}
+            style={{ padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem' }}
+          >
             <div style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '0.5rem', borderRadius: 'var(--border-radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Youtube size={24} fill="#ef4444" />
             </div>
@@ -49,9 +59,18 @@ export default function ContactPage() {
               <h4 style={{ fontSize: '1rem', fontWeight: 600 }}>YouTube Channel</h4>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>@TrigTechSolutions</p>
             </div>
-          </a>
+          </motion.a>
 
-          <a href="https://t.me/TrigTechMath" target="_blank" rel="noreferrer" className="glass-panel" style={{ padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <motion.a 
+            href="https://t.me/TrigTechMath" 
+            target="_blank" 
+            rel="noreferrer" 
+            className="glass-panel glass-panel-interactive" 
+            initial={{ opacity: 0, x: 15 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.35, delay: 0.1, ease: 'easeOut' }}
+            style={{ padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem' }}
+          >
             <div style={{ background: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6', padding: '0.5rem', borderRadius: 'var(--border-radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Send size={20} fill="#3b82f6" />
             </div>
@@ -59,11 +78,17 @@ export default function ContactPage() {
               <h4 style={{ fontSize: '1rem', fontWeight: 600 }}>Telegram Channel</h4>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>@TrigTechMath</p>
             </div>
-          </a>
+          </motion.a>
         </div>
 
         {/* Form */}
-        <div className="glass-panel" style={{ padding: '2rem' }}>
+        <motion.div 
+          className="glass-panel" 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.15, ease: 'easeOut' }}
+          style={{ padding: '2rem' }}
+        >
           <h3 style={{ fontSize: '1.25rem', marginBottom: '1.25rem' }}>Send a WhatsApp Message</h3>
           
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -102,7 +127,7 @@ export default function ContactPage() {
               Open WhatsApp Chat <ExternalLink size={16} />
             </button>
           </form>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

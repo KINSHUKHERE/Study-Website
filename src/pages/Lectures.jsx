@@ -3,6 +3,7 @@ import { Search, Play, Folder, ChevronLeft, Calendar, Video, X, BookOpen, Layers
 import VideoCard from '../components/VideoCard';
 import Youtube from '../components/YoutubeIcon';
 import CustomYoutubePlayer from '../components/CustomYoutubePlayer';
+import { motion } from 'framer-motion';
 
 export default function Lectures({ videos, activeVideo, setActiveVideo, selectedPlaylist, setSelectedPlaylist, initialSearchQuery, clearSearchQuery, watchProgress, onProgressUpdate }) {
   const [search, setSearch] = useState(initialSearchQuery || '');
@@ -249,19 +250,14 @@ export default function Lectures({ videos, activeVideo, setActiveVideo, selected
                   href="https://www.youtube.com/@Trigtechsolutions?sub_confirmation=1" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="btn"
+                  className="btn btn-subscribe"
                   style={{
-                    background: '#ff0000',
-                    color: '#fff',
                     padding: '0.45rem 1.15rem',
                     fontSize: '0.85rem',
                     fontWeight: 700,
                     borderRadius: '20px',
-                    marginLeft: '0.75rem',
-                    boxShadow: '0 4px 12px rgba(255, 0, 0, 0.2)'
+                    marginLeft: '0.75rem'
                   }}
-                  onMouseOver={(e) => e.target.style.background = '#cc0000'}
-                  onMouseOut={(e) => e.target.style.background = '#ff0000'}
                 >
                   Subscribe
                 </a>
@@ -296,16 +292,12 @@ export default function Lectures({ videos, activeVideo, setActiveVideo, selected
                     href={activeVideo.secondaryUrl} 
                     target="_blank" 
                     rel="noreferrer"
-                    className="btn"
+                    className="btn btn-primary btn-accent-green"
                     style={{
-                      background: 'var(--accent-green)',
-                      borderColor: 'var(--accent-green)',
-                      color: '#fff',
                       padding: '0.5rem 1.25rem',
                       fontSize: '0.85rem',
                       fontWeight: 600,
-                      borderRadius: 'var(--border-radius-md)',
-                      boxShadow: '0 4px 14px 0 rgba(16, 185, 129, 0.3)'
+                      borderRadius: 'var(--border-radius-md)'
                     }}
                   >
                     Download Lecture Notes
@@ -426,13 +418,17 @@ export default function Lectures({ videos, activeVideo, setActiveVideo, selected
             gap: '2rem'
           }}>
             {filteredPlaylists.map((playlist, idx) => (
-              <div 
+              <motion.div 
                 key={idx} 
                 onClick={() => {
                   setSelectedPlaylist(playlist.name);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="glass-panel" 
+                className="glass-panel glass-panel-interactive" 
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.35, delay: idx * 0.05, ease: 'easeOut' }}
                 style={{
                   padding: '2rem 1.5rem',
                   cursor: 'pointer',
@@ -494,7 +490,7 @@ export default function Lectures({ videos, activeVideo, setActiveVideo, selected
                     <Calendar size={12} /> {playlist.latestDate}
                   </span>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

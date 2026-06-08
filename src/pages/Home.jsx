@@ -5,6 +5,7 @@ import VideoCard from '../components/VideoCard';
 import NotesCard from '../components/NotesCard';
 import TestimonialsSection from '../components/TestimonialsSection';
 import Features from '../components/ui/Features';
+import { motion } from 'framer-motion';
 
 export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNotesSearchQuery, watchProgress }) {
   const [localSearch, setLocalSearch] = useState('');
@@ -103,11 +104,20 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
           </div>
 
           {/* Hero Right / Channels cards */}
-          <div style={{ flex: '1 1 400px', display: 'flex', flexDirection: 'column', gap: '1.25rem' }} className="animate-slide-up">
-            <a href="https://www.youtube.com/@TrigTechSolutions/" target="_blank" rel="noreferrer" className="glass-panel flex items-center gap-4" style={{
-              padding: '1.5rem',
-              cursor: 'pointer'
-            }}>
+          <div style={{ flex: '1 1 400px', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <motion.a 
+              href="https://www.youtube.com/@TrigTechSolutions/" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="glass-panel glass-panel-interactive flex items-center gap-4" 
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.1, ease: 'easeOut' }}
+              style={{
+                padding: '1.5rem',
+                cursor: 'pointer'
+              }}
+            >
               <div style={{
                 background: 'rgba(239, 68, 68, 0.1)',
                 color: '#ef4444',
@@ -123,12 +133,21 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
                   Visit Channel <ArrowRight size={12} />
                 </span>
               </div>
-            </a>
+            </motion.a>
 
-            <a href="https://t.me/TrigTechMath" target="_blank" rel="noreferrer" className="glass-panel flex items-center gap-4" style={{
-              padding: '1.5rem',
-              cursor: 'pointer'
-            }}>
+            <motion.a 
+              href="https://t.me/TrigTechMath" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="glass-panel glass-panel-interactive flex items-center gap-4" 
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.2, ease: 'easeOut' }}
+              style={{
+                padding: '1.5rem',
+                cursor: 'pointer'
+              }}
+            >
               <div style={{
                 background: 'rgba(59, 130, 246, 0.1)',
                 color: '#3b82f6',
@@ -144,19 +163,20 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
                   Join Telegram <ArrowRight size={12} />
                 </span>
               </div>
-            </a>
+            </motion.a>
           </div>
         </div>
       </section>
 
       {/* Stats Counter Section (Scrolling Marquee) */}
-      <section style={{ 
+      <section className="marquee-section" style={{ 
         background: 'var(--bg-secondary)', 
         padding: '1.75rem 0', 
         borderTop: '1px solid var(--border-color)', 
         borderBottom: '1px solid var(--border-color)',
         overflow: 'hidden',
-        position: 'relative'
+        position: 'relative',
+        transition: 'padding var(--transition-normal)'
       }}>
         {/* Left Side Blue-themed Ambient Gradient Fade */}
         <div style={{
@@ -192,54 +212,62 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
           <div className="marquee-track" style={{
             display: 'flex',
             gap: '5rem',
-            animation: 'marquee-scroll 20s linear infinite',
+            animation: 'marquee-scroll 30s linear infinite',
             whiteSpace: 'nowrap',
             paddingRight: '5rem',
             flexShrink: 0
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <span style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--primary)' }}>50+</span>
-              <span style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>Video Lectures</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <span style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent-green)' }}>30+</span>
-              <span style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>Handwritten Notes</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <span style={{ fontSize: '2rem', fontWeight: 800, color: '#ef4444' }}>5K+</span>
-              <span style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>YouTube Subscribers</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <span style={{ fontSize: '2rem', fontWeight: 800, color: '#3b82f6' }}>2K+</span>
-              <span style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>Telegram Members</span>
-            </div>
+            {[
+              { value: '50+', label: 'Video Lectures', color: 'var(--primary)' },
+              { value: '30+', label: 'Handwritten Notes', color: 'var(--accent-green)' },
+              { value: '5K+', label: 'YouTube Subscribers', color: '#ef4444' },
+              { value: '2K+', label: 'Telegram Members', color: '#3b82f6' },
+              // Repeat items to increase the length of marquee track
+              { value: '50+', label: 'Video Lectures', color: 'var(--primary)' },
+              { value: '30+', label: 'Handwritten Notes', color: 'var(--accent-green)' },
+              { value: '5K+', label: 'YouTube Subscribers', color: '#ef4444' },
+              { value: '2K+', label: 'Telegram Members', color: '#3b82f6' },
+              { value: '50+', label: 'Video Lectures', color: 'var(--primary)' },
+              { value: '30+', label: 'Handwritten Notes', color: 'var(--accent-green)' },
+              { value: '5K+', label: 'YouTube Subscribers', color: '#ef4444' },
+              { value: '2K+', label: 'Telegram Members', color: '#3b82f6' }
+            ].map((stat, idx) => (
+              <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <span className="marquee-item-value" style={{ fontSize: '2rem', fontWeight: 800, color: stat.color, transition: 'font-size var(--transition-normal)' }}>{stat.value}</span>
+                <span className="marquee-item-label" style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600, transition: 'font-size var(--transition-normal)' }}>{stat.label}</span>
+              </div>
+            ))}
           </div>
 
           {/* Track 2 (Duplicate for loop) */}
           <div className="marquee-track" style={{
             display: 'flex',
             gap: '5rem',
-            animation: 'marquee-scroll 20s linear infinite',
+            animation: 'marquee-scroll 30s linear infinite',
             whiteSpace: 'nowrap',
             paddingRight: '5rem',
             flexShrink: 0
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <span style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--primary)' }}>50+</span>
-              <span style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>Video Lectures</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <span style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--accent-green)' }}>30+</span>
-              <span style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>Handwritten Notes</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <span style={{ fontSize: '2rem', fontWeight: 800, color: '#ef4444' }}>5K+</span>
-              <span style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>YouTube Subscribers</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <span style={{ fontSize: '2rem', fontWeight: 800, color: '#3b82f6' }}>2K+</span>
-              <span style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>Telegram Members</span>
-            </div>
+            {[
+              { value: '50+', label: 'Video Lectures', color: 'var(--primary)' },
+              { value: '30+', label: 'Handwritten Notes', color: 'var(--accent-green)' },
+              { value: '5K+', label: 'YouTube Subscribers', color: '#ef4444' },
+              { value: '2K+', label: 'Telegram Members', color: '#3b82f6' },
+              // Repeat items to increase the length of marquee track
+              { value: '50+', label: 'Video Lectures', color: 'var(--primary)' },
+              { value: '30+', label: 'Handwritten Notes', color: 'var(--accent-green)' },
+              { value: '5K+', label: 'YouTube Subscribers', color: '#ef4444' },
+              { value: '2K+', label: 'Telegram Members', color: '#3b82f6' },
+              { value: '50+', label: 'Video Lectures', color: 'var(--primary)' },
+              { value: '30+', label: 'Handwritten Notes', color: 'var(--accent-green)' },
+              { value: '5K+', label: 'YouTube Subscribers', color: '#ef4444' },
+              { value: '2K+', label: 'Telegram Members', color: '#3b82f6' }
+            ].map((stat, idx) => (
+              <div key={`dup-${idx}`} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <span className="marquee-item-value" style={{ fontSize: '2rem', fontWeight: 800, color: stat.color, transition: 'font-size var(--transition-normal)' }}>{stat.value}</span>
+                <span className="marquee-item-label" style={{ fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 600, transition: 'font-size var(--transition-normal)' }}>{stat.label}</span>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -251,6 +279,21 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
           .marquee-container:hover .marquee-track {
             animation-play-state: paused;
             cursor: pointer;
+          }
+          @media (max-width: 600px) {
+            .marquee-section {
+              padding: 0.85rem 0 !important;
+            }
+            .marquee-item-value {
+              font-size: 1.4rem !important;
+            }
+            .marquee-item-label {
+              font-size: 0.8rem !important;
+            }
+            .marquee-track {
+              gap: 3.5rem !important;
+              padding-right: 3.5rem !important;
+            }
           }
         `}</style>
       </section>

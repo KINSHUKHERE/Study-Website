@@ -1,5 +1,5 @@
 import React from 'react';
-import { Send, Heart, Mail } from 'lucide-react';
+import { Send, Mail } from 'lucide-react';
 import Youtube from './YoutubeIcon';
 
 export default function Footer({ setCurrentTab }) {
@@ -57,22 +57,22 @@ export default function Footer({ setCurrentTab }) {
           <h4 style={{ fontSize: '1.1rem', fontFamily: 'var(--font-heading)' }}>Quick Links</h4>
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.95rem' }}>
             <li>
-              <button onClick={() => setCurrentTab('home')} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', textAlign: 'left' }} onMouseOver={(e) => e.target.style.color = 'var(--primary)'} onMouseOut={(e) => e.target.style.color = 'var(--text-secondary)'}>
+              <button onClick={() => setCurrentTab('home')} className="footer-link">
                 Home Dashboard
               </button>
             </li>
             <li>
-              <button onClick={() => setCurrentTab('lectures')} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', textAlign: 'left' }} onMouseOver={(e) => e.target.style.color = 'var(--primary)'} onMouseOut={(e) => e.target.style.color = 'var(--text-secondary)'}>
+              <button onClick={() => setCurrentTab('lectures')} className="footer-link">
                 Mathematics Lectures
               </button>
             </li>
             <li>
-              <button onClick={() => setCurrentTab('notes')} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', textAlign: 'left' }} onMouseOver={(e) => e.target.style.color = 'var(--primary)'} onMouseOut={(e) => e.target.style.color = 'var(--text-secondary)'}>
+              <button onClick={() => setCurrentTab('notes')} className="footer-link">
                 Handwritten Notes & PDFs
               </button>
             </li>
             <li>
-              <button onClick={() => setCurrentTab('contact')} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', textAlign: 'left' }} onMouseOver={(e) => e.target.style.color = 'var(--primary)'} onMouseOut={(e) => e.target.style.color = 'var(--text-secondary)'}>
+              <button onClick={() => setCurrentTab('contact')} className="footer-link">
                 Contact Creator
               </button>
             </li>
@@ -84,17 +84,17 @@ export default function Footer({ setCurrentTab }) {
           <h4 style={{ fontSize: '1.1rem', fontFamily: 'var(--font-heading)' }}>Our Platforms</h4>
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.95rem' }}>
             <li>
-              <a href="https://www.youtube.com/@TrigTechSolutions/" target="_blank" rel="noreferrer" style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.5rem' }} onMouseOver={(e) => e.target.style.color = 'var(--primary)'} onMouseOut={(e) => e.target.style.color = 'var(--text-secondary)'}>
+              <a href="https://www.youtube.com/@TrigTechSolutions/" target="_blank" rel="noreferrer" className="footer-link" style={{ gap: '0.5rem' }}>
                 <Youtube size={16} /> TrigTech Solutions (YouTube)
               </a>
             </li>
             <li>
-              <a href="https://t.me/TrigTechMath" target="_blank" rel="noreferrer" style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.5rem' }} onMouseOver={(e) => e.target.style.color = 'var(--primary)'} onMouseOut={(e) => e.target.style.color = 'var(--text-secondary)'}>
+              <a href="https://t.me/TrigTechMath" target="_blank" rel="noreferrer" className="footer-link" style={{ gap: '0.5rem' }}>
                 <Send size={14} /> TrigTech Math (Telegram Channel)
               </a>
             </li>
             <li>
-              <a href="mailto:contact@trigtech.in" style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.5rem' }} onMouseOver={(e) => e.target.style.color = 'var(--primary)'} onMouseOut={(e) => e.target.style.color = 'var(--text-secondary)'}>
+              <a href="mailto:contact@trigtech.in" className="footer-link" style={{ gap: '0.5rem' }}>
                 <Mail size={16} /> Support Mail
               </a>
             </li>
@@ -111,8 +111,8 @@ export default function Footer({ setCurrentTab }) {
           color: 'var(--text-muted)'
         }}>
           <p>© {new Date().getFullYear()} TrigTech. All rights reserved.</p>
-          <p className="flex items-center gap-1">
-            Made with <Heart size={14} color="var(--primary)" fill="var(--primary)" /> for students
+          <p style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+            Made with <span style={{ color: '#ef4444' }}>❤️</span> for students
           </p>
         </div>
       </div>

@@ -8,6 +8,7 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import { fetchDataFromSheet } from './services/sheetsService';
 import { Loader2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState('home');
@@ -126,11 +127,13 @@ export default function App() {
     const path = tabId === 'home' ? '/' : `/${tabId}`;
     window.history.pushState(null, '', path);
     window.dispatchEvent(new PopStateEvent('popstate'));
+    window.scrollTo(0, 0);
   };
 
   const handleWatchVideo = (video) => {
     window.history.pushState(null, '', `/watch?v=${video.id}`);
     window.dispatchEvent(new PopStateEvent('popstate'));
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -184,67 +187,78 @@ export default function App() {
           </div>
         ) : (
           <>
-            {currentTab === 'home' && (
-              <Home 
-                videos={videos} 
-                notes={notes} 
-                onWatchVideo={handleWatchVideo} 
-                setCurrentTab={navigateTo}
-                setNotesSearchQuery={setNotesSearchQuery}
-                watchProgress={watchProgress}
-              />
-            )}
-            
-            {currentTab === 'lectures' && (
-              <Lectures 
-                videos={videos} 
-                activeVideo={activeVideo}
-                setActiveVideo={(video) => {
-                  if (video) {
-                    window.history.pushState(null, '', `/watch?v=${video.id}`);
-                    window.dispatchEvent(new PopStateEvent('popstate'));
-                  } else {
-                    if (selectedPlaylist) {
-                      window.history.pushState(null, '', `/playlist?name=${encodeURIComponent(selectedPlaylist)}`);
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentTab}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25, ease: 'easeInOut' }}
+              style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}
+            >
+              {currentTab === 'home' && (
+                <Home 
+                  videos={videos} 
+                  notes={notes} 
+                  onWatchVideo={handleWatchVideo} 
+                  setCurrentTab={navigateTo}
+                  setNotesSearchQuery={setNotesSearchQuery}
+                  watchProgress={watchProgress}
+                />
+              )}
+              
+              {currentTab === 'lectures' && (
+                <Lectures 
+                  videos={videos} 
+                  activeVideo={activeVideo}
+                  setActiveVideo={(video) => {
+                    if (video) {
+                      window.history.pushState(null, '', `/watch?v=${video.id}`);
+                      window.dispatchEvent(new PopStateEvent('popstate'));
+                    } else {
+                      if (selectedPlaylist) {
+                        window.history.pushState(null, '', `/playlist?name=${encodeURIComponent(selectedPlaylist)}`);
+                        window.dispatchEvent(new PopStateEvent('popstate'));
+                      } else {
+                        window.history.pushState(null, '', '/lectures');
+                        window.dispatchEvent(new PopStateEvent('popstate'));
+                      }
+                    }
+                  }}
+                  selectedPlaylist={selectedPlaylist}
+                  setSelectedPlaylist={(playlist) => {
+                    if (playlist) {
+                      window.history.pushState(null, '', `/playlist?name=${encodeURIComponent(playlist)}`);
                       window.dispatchEvent(new PopStateEvent('popstate'));
                     } else {
                       window.history.pushState(null, '', '/lectures');
                       window.dispatchEvent(new PopStateEvent('popstate'));
                     }
-                  }
-                }}
-                selectedPlaylist={selectedPlaylist}
-                setSelectedPlaylist={(playlist) => {
-                  if (playlist) {
-                    window.history.pushState(null, '', `/playlist?name=${encodeURIComponent(playlist)}`);
-                    window.dispatchEvent(new PopStateEvent('popstate'));
-                  } else {
-                    window.history.pushState(null, '', '/lectures');
-                    window.dispatchEvent(new PopStateEvent('popstate'));
-                  }
-                }}
-                initialSearchQuery={notesSearchQuery}
-                clearSearchQuery={() => setNotesSearchQuery('')}
-                watchProgress={watchProgress}
-                onProgressUpdate={handleProgressUpdate}
-              />
-            )}
-            
-            {currentTab === 'notes' && (
-              <Notes 
-                notes={notes} 
-                initialSearchQuery={notesSearchQuery}
-                clearSearchQuery={() => setNotesSearchQuery('')}
-              />
-            )}
-            
-            {currentTab === 'about' && (
-              <AboutPage />
-            )}
-            
-            {currentTab === 'contact' && (
-              <ContactPage />
-            )}
+                  }}
+                  initialSearchQuery={notesSearchQuery}
+                  clearSearchQuery={() => setNotesSearchQuery('')}
+                  watchProgress={watchProgress}
+                  onProgressUpdate={handleProgressUpdate}
+                />
+              )}
+              
+              {currentTab === 'notes' && (
+                <Notes 
+                  notes={notes} 
+                  initialSearchQuery={notesSearchQuery}
+                  clearSearchQuery={() => setNotesSearchQuery('')}
+                />
+              )}
+              
+              {currentTab === 'about' && (
+                <AboutPage />
+              )}
+              
+              {currentTab === 'contact' && (
+                <ContactPage />
+              )}
+            </motion.div>
+          </AnimatePresence>
           </>
         )}
       </main>
