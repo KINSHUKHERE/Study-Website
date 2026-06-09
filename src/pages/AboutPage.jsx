@@ -110,45 +110,64 @@ export default function AboutPage() {
             </p>
           </div>
 
-          {/* Styled Placeholder Image Frame (Right) */}
+          {/* Instructor Image Frame (Right) */}
           <div style={{ 
             flex: '1 1 300px', 
             display: 'flex', 
             justifyContent: 'center',
             alignItems: 'center'
           }}>
-            <div className="glass-panel" style={{
+            <div className="glass-panel instructor-card" style={{
               width: '100%',
               maxWidth: '350px',
               aspectRatio: '1/1',
               borderRadius: 'var(--border-radius-lg)',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '1rem',
-              border: '2px dashed var(--border-color)',
-              padding: '2rem',
-              textAlign: 'center',
+              overflow: 'hidden',
+              border: '1px solid var(--border-color)',
               background: 'var(--bg-secondary)',
-              boxShadow: 'var(--shadow-lg)'
+              boxShadow: 'var(--shadow-lg)',
+              position: 'relative',
+              cursor: 'pointer'
             }}>
-              <div style={{
-                background: 'var(--primary-glow)',
-                color: 'var(--primary)',
-                width: '4.5rem',
-                height: '4.5rem',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: 'var(--shadow-glow)'
+              {/* Full Image */}
+              <img 
+                src="/pankaj_sir.jpg" 
+                alt="Pankaj Gadwal" 
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  display: 'block'
+                }}
+              />
+              
+              {/* Overlay Glassmorphic Name Tag */}
+              <div className="name-tag" style={{
+                position: 'absolute',
+                bottom: '1.25rem',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: 'max-content',
+                maxWidth: '90%',
+                background: 'rgba(15, 23, 42, 0.65)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: 'var(--border-radius-md)',
+                padding: '0.75rem 1.5rem',
+                textAlign: 'center',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
               }}>
-                <Award size={36} />
-              </div>
-              <div>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.25rem' }}>Pankaj Sir</h3>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Classroom Lecture Photo Frame</p>
+                <h3 style={{ 
+                  fontSize: '1.2rem', 
+                  fontWeight: 700, 
+                  margin: 0, 
+                  color: '#ffffff',
+                  letterSpacing: '0.5px',
+                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
+                }}>
+                  Pankaj Gadwal
+                </h3>
               </div>
             </div>
           </div>
@@ -225,6 +244,31 @@ export default function AboutPage() {
           ))}
         </div>
       </section>
+
+      <style>{`
+        .instructor-card {
+          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.4s ease, box-shadow 0.4s ease !important;
+        }
+        .instructor-card img {
+          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+        }
+        .instructor-card .name-tag {
+          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease, border-color 0.3s ease !important;
+        }
+        .instructor-card:hover {
+          transform: translateY(-6px);
+          border-color: rgba(99, 102, 241, 0.4) !important;
+          box-shadow: 0 16px 36px rgba(99, 102, 241, 0.25) !important;
+        }
+        .instructor-card:hover img {
+          transform: scale(1.05);
+        }
+        .instructor-card:hover .name-tag {
+          transform: translateX(-50%) translateY(-2px) scale(1.02) !important;
+          background: rgba(99, 102, 241, 0.75) !important;
+          border-color: rgba(255, 255, 255, 0.25) !important;
+        }
+      `}</style>
 
     </div>
   );
