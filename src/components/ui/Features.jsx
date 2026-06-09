@@ -9,12 +9,13 @@ import {
 
 export default function Features() {
   return (
-    <div className="container" style={{ padding: '5rem 1.5rem', textAlign: 'center' }}>
-      {/* Title */}
-      <h2 style={{
-        fontSize: 'clamp(2rem, 4vw, 2.75rem)',
-        fontWeight: 800,
-        marginBottom: '3rem',
+    <section className="section-padding" style={{ borderBottom: '1px solid var(--border-color)', background: 'var(--bg-primary)' }}>
+      <div className="container" style={{ textAlign: 'center' }}>
+        {/* Title */}
+        <h2 style={{
+          fontSize: 'clamp(2.2rem, 5vw, 2.75rem)',
+          fontWeight: 800,
+          marginBottom: '2.25rem',
         maxWidth: '750px',
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -196,12 +197,17 @@ export default function Features() {
         @media (max-width: 768px) {
           .features-grid {
             grid-template-columns: 1fr;
+            gap: 1.25rem;
+          }
+          .feature-card {
+            padding: 1.5rem !important;
           }
           .tall-card {
             grid-row: auto;
           }
         }
       `}</style>
-    </div>
+      </div>
+    </section>
   );
 }

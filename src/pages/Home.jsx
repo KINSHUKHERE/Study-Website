@@ -32,11 +32,7 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
   return (
     <div className="animate-fade">
       {/* Hero Section */}
-      <section className="section-padding" style={{
-        position: 'relative',
-        background: 'radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent 40%)',
-        overflow: 'hidden'
-      }}>
+      <section className="section-padding hero-section">
         <div className="container flex flex-col items-center justify-between hero-container" style={{
           flexDirection: 'row',
           flexWrap: 'wrap',
@@ -109,7 +105,7 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
               href="https://www.youtube.com/@TrigTechSolutions/" 
               target="_blank" 
               rel="noreferrer" 
-              className="glass-panel glass-panel-interactive flex items-center gap-4" 
+              className="glass-panel glass-panel-interactive flex items-center gap-4 hero-social-card" 
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4, delay: 0.1, ease: 'easeOut' }}
@@ -118,11 +114,14 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
                 cursor: 'pointer'
               }}
             >
-              <div style={{
+              <div className="icon-container" style={{
                 background: 'rgba(239, 68, 68, 0.1)',
                 color: '#ef4444',
                 padding: '1rem',
-                borderRadius: 'var(--border-radius-md)'
+                borderRadius: 'var(--border-radius-md)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
               }}>
                 <Youtube size={32} fill="#ef4444" />
               </div>
@@ -139,7 +138,7 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
               href="https://t.me/TrigTechMath" 
               target="_blank" 
               rel="noreferrer" 
-              className="glass-panel glass-panel-interactive flex items-center gap-4" 
+              className="glass-panel glass-panel-interactive flex items-center gap-4 hero-social-card" 
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4, delay: 0.2, ease: 'easeOut' }}
@@ -148,11 +147,14 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
                 cursor: 'pointer'
               }}
             >
-              <div style={{
+              <div className="icon-container" style={{
                 background: 'rgba(59, 130, 246, 0.1)',
                 color: '#3b82f6',
                 padding: '1rem',
-                borderRadius: 'var(--border-radius-md)'
+                borderRadius: 'var(--border-radius-md)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
               }}>
                 <Send size={32} fill="#3b82f6" />
               </div>
@@ -280,34 +282,76 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
             animation-play-state: paused;
             cursor: pointer;
           }
+          .hero-section {
+            position: relative;
+            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.12), transparent 45%);
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+          }
           @media (max-width: 768px) {
+            .hero-section {
+              background: radial-gradient(circle at 50% 25%, rgba(99, 102, 241, 0.15) 0%, transparent 60%),
+                          radial-gradient(circle at 20% 75%, rgba(168, 85, 247, 0.08) 0%, transparent 55%);
+              padding-top: 5rem !important;
+              padding-bottom: 4.5rem !important;
+            }
             .hero-container {
-              gap: 1.75rem !important;
+              gap: 2.5rem !important;
             }
             .hero-left-content {
               flex: 1 1 100% !important;
-              gap: 1rem !important;
+              gap: 1.5rem !important;
             }
             .hero-right-content {
               flex: 1 1 100% !important;
-              gap: 1rem !important;
+              gap: 1.25rem !important;
             }
             .hero-title {
-              font-size: clamp(2rem, 5vw, 3rem) !important;
+              font-size: clamp(2.2rem, 6vw, 3.2rem) !important;
+              line-height: 1.2 !important;
             }
             .hero-desc {
+              font-size: 1.05rem !important;
+              line-height: 1.6 !important;
+            }
+            .hero-social-card {
+              padding: 0.85rem 1.25rem !important;
+              gap: 0.85rem !important;
+              border-radius: var(--border-radius-md) !important;
+            }
+            .hero-social-card .icon-container {
+              padding: 0.65rem !important;
+              border-radius: var(--border-radius-sm) !important;
+            }
+            .hero-social-card .icon-container svg {
+              width: 22px !important;
+              height: 22px !important;
+            }
+            .hero-social-card h3 {
               font-size: 1rem !important;
+              margin-bottom: 0px !important;
+              font-weight: 700 !important;
+            }
+            .hero-social-card p {
+              display: none !important;
+            }
+            .hero-social-card span {
+              display: none !important;
+            }
+            .hero-left-content .btn {
+              padding: 0.75rem 1.25rem !important;
+              font-size: 0.9rem !important;
             }
           }
           @media (max-width: 600px) {
             .marquee-section {
-              padding: 0.85rem 0 !important;
+              padding: 1.25rem 0 !important;
             }
             .marquee-item-value {
-              font-size: 1.4rem !important;
+              font-size: 1.5rem !important;
             }
             .marquee-item-label {
-              font-size: 0.8rem !important;
+              font-size: 0.85rem !important;
             }
             .marquee-track {
               gap: 3.5rem !important;
@@ -323,7 +367,7 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
       {/* Recent Lectures Section */}
       <section className="section-padding">
         <div className="container">
-          <div className="flex justify-between items-center" style={{ marginBottom: '2.5rem' }}>
+          <div className="flex justify-between items-end" style={{ flexWrap: 'wrap', gap: '1.25rem', marginBottom: '2.25rem' }}>
             <div>
               <span className="badge badge-primary" style={{ marginBottom: '0.5rem' }}>Learn Live</span>
               <h2 style={{ fontSize: '2rem' }}>Recent Video Lectures</h2>
@@ -353,7 +397,7 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
       {/* Recent Notes Section */}
       <section className="section-padding" style={{ background: 'var(--bg-secondary)', borderRadius: 'var(--border-radius-xl) var(--border-radius-xl) 0 0' }}>
         <div className="container">
-          <div className="flex justify-between items-center" style={{ marginBottom: '2.5rem' }}>
+          <div className="flex justify-between items-end" style={{ flexWrap: 'wrap', gap: '1.25rem', marginBottom: '2.25rem' }}>
             <div>
               <span className="badge badge-green" style={{ marginBottom: '0.5rem' }}>Quick Revision</span>
               <h2 style={{ fontSize: '2rem' }}>Recent Handwritten Notes</h2>

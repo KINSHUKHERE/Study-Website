@@ -334,7 +334,7 @@ a {
 
 @media (max-width: 768px) {
   .section-padding {
-    padding: 2.75rem 0 !important;
+    padding: 4rem 0 !important;
   }
   .container {
     padding: 0 1rem !important;
