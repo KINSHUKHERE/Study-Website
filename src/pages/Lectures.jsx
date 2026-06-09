@@ -66,7 +66,10 @@ export default function Lectures({ videos, activeVideo, setActiveVideo, selected
   });
 
   const handleWatch = (video) => {
-    window.open(video.url, '_blank');
+    const fromParam = selectedPlaylist 
+      ? `&from=playlist&name=${encodeURIComponent(selectedPlaylist)}` 
+      : '&from=lectures';
+    window.open(`/watch?v=${video.id}${fromParam}`, '_blank');
   };
 
   // Helper to assign a clean icon to different playlist topics

@@ -6,6 +6,7 @@ import Lectures from './pages/Lectures';
 import Notes from './pages/Notes';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import WatchPage from './pages/WatchPage';
 import { fetchDataFromSheet } from './services/sheetsService';
 import { Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -92,18 +93,18 @@ export default function App() {
         setActiveVideo(null);
       } else if (path === '/playlist') {
         const params = new URLSearchParams(search);
-        const playlistParam = params.get('name') || '';
-        const playlistName = playlistParam.split('&')[0]; // Ignore tracking trailing parameters
+        const playlistName = params.get('name') || '';
         setCurrentTab('lectures');
         setSelectedPlaylist(playlistName);
         setActiveVideo(null);
       } else if (path === '/watch') {
         const params = new URLSearchParams(search);
-        const videoParam = params.get('v') || '';
-        const videoId = videoParam.split('&')[0]; // Ignore tracking trailing parameters
+        const videoId = params.get('v') || '';
         const video = videos.find(v => v.id === videoId);
         if (video) {
-          window.location.replace(video.url);
+          setCurrentTab('watch');
+          setActiveVideo(video);
+          setSelectedPlaylist(video.category);
         } else {
           setCurrentTab('lectures');
           setActiveVideo(null);
@@ -129,7 +130,7 @@ export default function App() {
   };
 
   const handleWatchVideo = (video) => {
-    window.open(video.url, '_blank');
+    window.open(`/watch?v=${video.id}&from=home`, '_blank');
   };
 
   return (
@@ -252,6 +253,16 @@ export default function App() {
               
               {currentTab === 'contact' && (
                 <ContactPage />
+              )}
+
+              {currentTab === 'watch' && (
+                <WatchPage 
+                  videos={videos}
+                  activeVideo={activeVideo}
+                  watchProgress={watchProgress}
+                  onProgressUpdate={handleProgressUpdate}
+                  navigateTo={navigateTo}
+                />
               )}
             </motion.div>
           </AnimatePresence>

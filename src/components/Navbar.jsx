@@ -94,39 +94,42 @@ export default function Navbar({ currentTab, navigateTo }) {
 
         {/* Desktop Nav Items */}
         <div className="nav-desktop flex items-center gap-6">
-          {navItems.map(item => (
-            <a
-              key={item.id}
-              href={item.id === 'home' ? '/' : `/${item.id}`}
-              onClick={(e) => {
-                e.preventDefault();
-                navigateTo(item.id);
-              }}
-              style={{
-                color: currentTab === item.id ? 'var(--primary)' : 'var(--text-secondary)',
-                fontWeight: currentTab === item.id ? 600 : 500,
-                fontSize: '0.95rem',
-                cursor: 'pointer',
-                fontFamily: 'var(--font-body)',
-                position: 'relative',
-                padding: '0.5rem 0',
-                transition: 'color var(--transition-fast)'
-              }}
-            >
-              {item.label}
-              {currentTab === item.id && (
-                <div style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  height: '2px',
-                  background: 'var(--primary)',
-                  borderRadius: '2px'
-                }} />
-              )}
-            </a>
-          ))}
+          {navItems.map(item => {
+            const isActive = currentTab === item.id || (item.id === 'lectures' && currentTab === 'watch');
+            return (
+              <a
+                key={item.id}
+                href={item.id === 'home' ? '/' : `/${item.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateTo(item.id);
+                }}
+                style={{
+                  color: isActive ? 'var(--primary)' : 'var(--text-secondary)',
+                  fontWeight: isActive ? 600 : 500,
+                  fontSize: '0.95rem',
+                  cursor: 'pointer',
+                  fontFamily: 'var(--font-body)',
+                  position: 'relative',
+                  padding: '0.5rem 0',
+                  transition: 'color var(--transition-fast)'
+                }}
+              >
+                {item.label}
+                {isActive && (
+                  <div style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: '2px',
+                    background: 'var(--primary)',
+                    borderRadius: '2px'
+                  }} />
+                )}
+              </a>
+            );
+          })}
           
           <div style={{ width: '1px', height: '1.5rem', background: 'var(--border-color)' }} />
           
@@ -218,27 +221,30 @@ export default function Navbar({ currentTab, navigateTo }) {
           background: 'var(--bg-secondary)',
           boxShadow: 'var(--shadow-lg)'
         }}>
-          {navItems.map(item => (
-            <a
-              key={item.id}
-              href={item.id === 'home' ? '/' : `/${item.id}`}
-              onClick={(e) => {
-                e.preventDefault();
-                navigateTo(item.id);
-                setMobileMenuOpen(false);
-              }}
-              style={{
-                color: currentTab === item.id ? 'var(--primary)' : 'var(--text-primary)',
-                fontWeight: currentTab === item.id ? 600 : 500,
-                fontSize: '1.1rem',
-                cursor: 'pointer',
-                textAlign: 'left',
-                padding: '0.5rem 0'
-              }}
-            >
-              {item.label}
-            </a>
-          ))}
+          {navItems.map(item => {
+            const isActive = currentTab === item.id || (item.id === 'lectures' && currentTab === 'watch');
+            return (
+              <a
+                key={item.id}
+                href={item.id === 'home' ? '/' : `/${item.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateTo(item.id);
+                  setMobileMenuOpen(false);
+                }}
+                style={{
+                  color: isActive ? 'var(--primary)' : 'var(--text-primary)',
+                  fontWeight: isActive ? 600 : 500,
+                  fontSize: '1.1rem',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  padding: '0.5rem 0'
+                }}
+              >
+                {item.label}
+              </a>
+            );
+          })}
           <div style={{ height: '1px', background: 'var(--border-color)', margin: '0.5rem 0' }} />
           <div className="flex items-center gap-4">
             <a href="https://www.youtube.com/@TrigTechSolutions/" target="_blank" rel="noreferrer" className="btn btn-secondary" style={{ flex: 1, gap: '0.5rem' }}>
