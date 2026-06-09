@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Search, Play, Folder, ChevronLeft, Calendar, Video, X, BookOpen, Layers } from 'lucide-react';
 import VideoCard from '../components/VideoCard';
 import Youtube from '../components/YoutubeIcon';
-import CustomYoutubePlayer from '../components/CustomYoutubePlayer';
 import { motion } from 'framer-motion';
 
 export default function Lectures({ videos, activeVideo, setActiveVideo, selectedPlaylist, setSelectedPlaylist, initialSearchQuery, clearSearchQuery, watchProgress, onProgressUpdate }) {
@@ -67,8 +66,7 @@ export default function Lectures({ videos, activeVideo, setActiveVideo, selected
   });
 
   const handleWatch = (video) => {
-    setActiveVideo(video);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.open(video.url, '_blank');
   };
 
   // Helper to assign a clean icon to different playlist topics
@@ -175,157 +173,7 @@ export default function Lectures({ videos, activeVideo, setActiveVideo, selected
         </div>
       )}
 
-      {/* Theater Video Player (Always shown at top if a video is active) */}
-      {activeVideo && (
-        <div className="glass-panel animate-slide-up" style={{
-          padding: '1.5rem',
-          marginBottom: '3rem',
-          borderWidth: '1px',
-          boxShadow: 'var(--shadow-glow)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1.5rem'
-        }}>
-          {/* Header Close button */}
-          <div className="flex justify-between items-center" style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
-            <span className="badge badge-primary">{activeVideo.category}</span>
-            <button 
-              onClick={() => setActiveVideo(null)}
-              className="btn btn-outline" 
-              style={{ padding: '0.4rem', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%' }}
-              title="Close Player"
-            >
-              <X size={18} />
-            </button>
-          </div>
 
-          {/* Player Container - Full Width in Theater style */}
-          <div style={{
-            position: 'relative',
-            borderRadius: 'var(--border-radius-md)',
-            background: '#000',
-            overflow: 'hidden',
-            width: '100%',
-            aspectRatio: '16/9',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
-          }} className="video-player-container">
-            <CustomYoutubePlayer 
-              youtubeId={activeVideo.youtubeId} 
-              onProgressUpdate={(currTime, dur) => onProgressUpdate(activeVideo.id, currTime, dur)}
-            />
-          </div>
-
-          {/* Premium Video Player Details (YouTube Style) */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {/* Title */}
-            <h2 style={{ fontSize: '1.65rem', fontWeight: 700, lineHeight: 1.3, color: 'var(--text-primary)' }}>
-              {activeVideo.title}
-            </h2>
-
-            {/* Profile & Action Row */}
-            <div className="flex justify-between items-center" style={{ flexWrap: 'wrap', gap: '1rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1.25rem' }}>
-              {/* Profile Details */}
-              <div className="flex items-center gap-3">
-                <div style={{
-                  width: '2.75rem',
-                  height: '2.75rem',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, var(--primary), var(--accent-purple))',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: 'bold',
-                  color: '#fff',
-                  border: '2px solid rgba(255,255,255,0.1)'
-                }}>
-                  TT
-                </div>
-                <div>
-                  <h4 style={{ fontSize: '1rem', fontWeight: 700, margin: 0 }}>TrigTech Solutions</h4>
-                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0 }}>5K+ subscribers</p>
-                </div>
-                
-                {/* Subscribe Button */}
-                <a 
-                  href="https://www.youtube.com/@Trigtechsolutions?sub_confirmation=1" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="btn btn-subscribe"
-                  style={{
-                    padding: '0.45rem 1.15rem',
-                    fontSize: '0.85rem',
-                    fontWeight: 700,
-                    borderRadius: '20px',
-                    marginLeft: '0.75rem'
-                  }}
-                >
-                  Subscribe
-                </a>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex items-center gap-3" style={{ flexWrap: 'wrap' }}>
-                <a 
-                  href={activeVideo.url} 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="btn btn-outline"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    color: '#ef4444',
-                    fontSize: '0.85rem',
-                    fontWeight: 600,
-                    background: 'rgba(239, 68, 68, 0.08)',
-                    padding: '0.5rem 1rem',
-                    borderRadius: 'var(--border-radius-md)',
-                    border: '1px solid rgba(239, 68, 68, 0.15)',
-                    cursor: 'pointer'
-                  }}
-                >
-                  <Youtube size={14} fill="#ef4444" /> Watch on YouTube
-                </a>
-
-                {activeVideo.secondaryUrl && (
-                  <a 
-                    href={activeVideo.secondaryUrl} 
-                    target="_blank" 
-                    rel="noreferrer"
-                    className="btn btn-primary btn-accent-green"
-                    style={{
-                      padding: '0.5rem 1.25rem',
-                      fontSize: '0.85rem',
-                      fontWeight: 600,
-                      borderRadius: 'var(--border-radius-md)'
-                    }}
-                  >
-                    Download Lecture Notes
-                  </a>
-                )}
-              </div>
-            </div>
-
-            {/* Grey Description Drawer */}
-            <div style={{
-              background: 'var(--bg-secondary)',
-              border: '1px solid var(--border-color)',
-              borderRadius: 'var(--border-radius-md)',
-              padding: '1rem 1.25rem',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.5rem'
-            }}>
-              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-                Published: {activeVideo.date} &nbsp;•&nbsp; Category: {activeVideo.category}
-              </div>
-              <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0, whiteSpace: 'pre-line' }}>
-                {activeVideo.description}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Main Content Area */}
       {search ? (

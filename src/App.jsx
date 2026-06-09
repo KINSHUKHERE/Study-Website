@@ -103,9 +103,7 @@ export default function App() {
         const videoId = videoParam.split('&')[0]; // Ignore tracking trailing parameters
         const video = videos.find(v => v.id === videoId);
         if (video) {
-          setCurrentTab('lectures');
-          setActiveVideo(video);
-          setSelectedPlaylist(video.category);
+          window.location.replace(video.url);
         } else {
           setCurrentTab('lectures');
           setActiveVideo(null);
@@ -131,9 +129,7 @@ export default function App() {
   };
 
   const handleWatchVideo = (video) => {
-    window.history.pushState(null, '', `/watch?v=${video.id}`);
-    window.dispatchEvent(new PopStateEvent('popstate'));
-    window.scrollTo(0, 0);
+    window.open(video.url, '_blank');
   };
 
   return (

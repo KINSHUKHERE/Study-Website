@@ -33,7 +33,6 @@ export default function VideoCard({ video, onWatch, onSelectNotes, progress }) {
         className="video-card-thumb"
         style={{ position: 'relative', overflow: 'hidden', aspectRatio: '16/9', cursor: 'pointer' }} 
         onClick={(e) => { e.preventDefault(); e.stopPropagation(); onWatch(video); }}
-        onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); onWatch(video); }}
       >
         <img 
           src={thumbnail} 
@@ -114,7 +113,6 @@ export default function VideoCard({ video, onWatch, onSelectNotes, progress }) {
 
         <h3 
           onClick={(e) => { e.preventDefault(); onWatch(video); }}
-          onTouchEnd={(e) => { e.preventDefault(); onWatch(video); }}
           className="video-card-title"
           style={{
             fontSize: '1.1rem',

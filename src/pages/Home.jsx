@@ -37,19 +37,19 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
         background: 'radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent 40%)',
         overflow: 'hidden'
       }}>
-        <div className="container flex flex-col items-center justify-between" style={{
+        <div className="container flex flex-col items-center justify-between hero-container" style={{
           flexDirection: 'row',
           flexWrap: 'wrap',
           gap: '3rem'
         }}>
           {/* Hero Left */}
-          <div style={{ flex: '1 1 500px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <div className="hero-left-content" style={{ flex: '1 1 500px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <div className="flex items-center gap-2">
               <span className="badge badge-primary">Free Study Material</span>
               <span className="badge badge-purple">Telegram Updates</span>
             </div>
             
-            <h1 className="gradient-text" style={{
+            <h1 className="gradient-text hero-title" style={{
               fontSize: 'clamp(2.5rem, 5vw, 4rem)',
               lineHeight: 1.15,
               fontWeight: 800,
@@ -57,7 +57,7 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
               Master Mathematics & Coding Conceptually
             </h1>
             
-            <p style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', maxWidth: '540px' }}>
+            <p className="hero-desc" style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', maxWidth: '540px' }}>
               Your ultimate resource hub for high-quality mathematical video lectures and beautifully drafted handwritten revision notes. Direct from YouTube and Telegram!
             </p>
 
@@ -104,7 +104,7 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
           </div>
 
           {/* Hero Right / Channels cards */}
-          <div style={{ flex: '1 1 400px', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          <div className="hero-right-content" style={{ flex: '1 1 400px', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             <motion.a 
               href="https://www.youtube.com/@TrigTechSolutions/" 
               target="_blank" 
@@ -279,6 +279,25 @@ export default function Home({ videos, notes, onWatchVideo, setCurrentTab, setNo
           .marquee-container:hover .marquee-track {
             animation-play-state: paused;
             cursor: pointer;
+          }
+          @media (max-width: 768px) {
+            .hero-container {
+              gap: 1.75rem !important;
+            }
+            .hero-left-content {
+              flex: 1 1 100% !important;
+              gap: 1rem !important;
+            }
+            .hero-right-content {
+              flex: 1 1 100% !important;
+              gap: 1rem !important;
+            }
+            .hero-title {
+              font-size: clamp(2rem, 5vw, 3rem) !important;
+            }
+            .hero-desc {
+              font-size: 1rem !important;
+            }
           }
           @media (max-width: 600px) {
             .marquee-section {

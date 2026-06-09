@@ -332,6 +332,26 @@ a {
   padding: 5rem 0;
 }
 
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 2.75rem 0 !important;
+  }
+  .container {
+    padding: 0 1rem !important;
+  }
+  h1 {
+    font-size: 2.2rem !important;
+    line-height: 1.25 !important;
+  }
+  h2 {
+    font-size: 1.65rem !important;
+  }
+  p {
+    font-size: 0.925rem !important;
+    line-height: 1.55 !important;
+  }
+}
+
 .badge {
   display: inline-flex;
   align-items: center;
